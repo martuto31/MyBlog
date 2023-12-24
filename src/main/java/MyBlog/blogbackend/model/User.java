@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -96,4 +97,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

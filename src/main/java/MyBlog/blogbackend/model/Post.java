@@ -1,12 +1,14 @@
 package MyBlog.blogbackend.model;
 
-import jakarta.persistence.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Post {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -16,19 +18,33 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    private LocalDateTime createdAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private LocalDateTime createdAt;
+    @ManyToMany
+    @JoinTable(
+            name = "post_category",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
 
     public Post() { }
 
-    public Post(String title, String content, User user, LocalDateTime createdAt) {
+    public Post(String title, String content, LocalDateTime createdAt, User user) {
         this.title = title;
         this.content = content;
-        this.user = user;
         this.createdAt = createdAt;
+        this.user = user;
+    }
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -41,11 +57,16 @@ public class Post {
 
     public void setContent(String content) { this.content = content; }
 
+    public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public Set<Category> getCategories() { return categories; }
 
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setCategories(Set<Category> categories) { this.categories = categories; }
+
 }
