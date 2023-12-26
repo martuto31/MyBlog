@@ -35,6 +35,14 @@ public class Post {
     )
     private Set<Category> categories = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
+
     public Post() { }
 
     public Post(
@@ -42,12 +50,15 @@ public class Post {
             String content,
             LocalDateTime createdAt,
             User user,
-            Set<Comment> comments) {
+            Set<Comment> comments,
+            Set<Tag> tags) {
+
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.user = user;
         this.comments = comments;
+        this.tags = tags;
     }
 
     public Long getId() { return id; }
@@ -81,5 +92,9 @@ public class Post {
     public Set<Comment> getComments() { return comments; }
 
     public void setComments(Set<Comment> comments) { this.comments = comments; }
+
+    public Set<Tag> getTags() { return tags; }
+
+    public void setTags() { this.tags = tags; }
 
 }

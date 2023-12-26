@@ -19,8 +19,12 @@ public class Category {
 
     public Category() { }
 
-    public Category(String name) {
+    public Category(
+            String name,
+            Set<Post> posts) {
+
         this.name = name;
+        this.posts = posts;
     }
 
     public Long getId() { return id; }

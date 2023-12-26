@@ -1,6 +1,8 @@
 package MyBlog.blogbackend.model;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -24,13 +26,28 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToMany
+    @JoinTable(
+            name = "comment_tags",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
+
     public Comment() { }
 
-    public Comment(String content, LocalDateTime createdAt, Post post, User user) {
+    public Comment(
+            String content,
+            LocalDateTime createdAt,
+            Post post,
+            User user,
+            Set<Tag> tags) {
+
         this.content = content;
         this.createdAt = createdAt;
         this.post = post;
         this.user = user;
+        this.tags = tags;
     }
 
     public Long getId() { return id; }
@@ -52,5 +69,9 @@ public class Comment {
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }
+
+    public Set<Tag> getTags() { return tags; }
+
+    public void setTags(Set<Tag> tags) { this.tags = tags; }
 
 }
