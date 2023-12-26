@@ -50,6 +50,7 @@ public class User {
             String password,
             Set<Comment> comments,
             Set<Post> posts) {
+
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
