@@ -1,14 +1,13 @@
 package MyBlog.blogbackend.model;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -20,30 +19,44 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    public String firstname;
+    private String firstname;
 
     @Column(nullable = false)
-    public String lastname;
+    private String lastname;
 
     @Column(nullable = false, unique = true)
-    public String email;
+    private String email;
 
     @JsonIgnore
     @Column(nullable = false)
-    public String password;
+    private String password;
 
     @JsonIgnore
     @Column
     private String salt;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts = new HashSet<>();
+
     public User() { }
 
-    public User(String email, String firstname, String lastname, String password) {
+    public User(
+            String email,
+            String firstname,
+            String lastname,
+            String password,
+            Set<Comment> comments,
+            Set<Post> posts) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.salt = UUID.randomUUID().toString();
         this.password = new BCryptPasswordEncoder().encode(password + this.salt);
+        this.comments = comments;
+        this.posts = posts;
     }
 
     @JsonIgnore
@@ -97,5 +110,13 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Set<Comment> getComments() { return comments; }
+
+    public void setComments(Set<Comment> comments) { this.comments = comments; }
+
+    public Set<Post> getPosts() { return posts; }
+
+    public void setPosts(Set<Post> posts) { this.posts = posts; }
 
 }

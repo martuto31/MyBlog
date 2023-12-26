@@ -24,6 +24,9 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
+
     @ManyToMany
     @JoinTable(
             name = "post_category",
@@ -34,11 +37,17 @@ public class Post {
 
     public Post() { }
 
-    public Post(String title, String content, LocalDateTime createdAt, User user) {
+    public Post(
+            String title,
+            String content,
+            LocalDateTime createdAt,
+            User user,
+            Set<Comment> comments) {
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.user = user;
+        this.comments = comments;
     }
 
     public Long getId() { return id; }
@@ -68,5 +77,9 @@ public class Post {
     public Set<Category> getCategories() { return categories; }
 
     public void setCategories(Set<Category> categories) { this.categories = categories; }
+
+    public Set<Comment> getComments() { return comments; }
+
+    public void setComments(Set<Comment> comments) { this.comments = comments; }
 
 }
