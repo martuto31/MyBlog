@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import MyBlog.blogbackend.model.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
+
+    // TODO: Add pagination
+
     @Query("SELECT p FROM Post p WHERE p.title = :title")
     Post findByTitle(String title);
 
