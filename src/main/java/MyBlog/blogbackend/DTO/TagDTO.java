@@ -1,32 +1,26 @@
-package MyBlog.blogbackend.model;
+package MyBlog.blogbackend.DTO;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.*;
+import MyBlog.blogbackend.model.Comment;
+import MyBlog.blogbackend.model.Post;
 
-@Entity
-public class Tag {
+public class TagDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
+    private Set<Post> posts;
+    private Set<Comment> comments;
 
-    @ManyToMany(mappedBy = "tags")
-    private Set<Post> posts = new HashSet<>();
+    public TagDTO() {
+    }
 
-    @ManyToMany(mappedBy = "tags")
-    private Set<Comment> comments = new HashSet<>();
-
-    public Tag() { }
-
-    public Tag(
+    public TagDTO(
+            Long id,
             String name,
             Set<Post> posts,
             Set<Comment> comments) {
-
+        this.id = id;
         this.name = name;
         this.posts = posts;
         this.comments = comments;
