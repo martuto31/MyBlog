@@ -1,12 +1,12 @@
 package MyBlog.blogbackend.DTO;
 
-import MyBlog.blogbackend.model.Category;
-import MyBlog.blogbackend.model.Comment;
-import MyBlog.blogbackend.model.Tag;
-import MyBlog.blogbackend.model.User;
-
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import MyBlog.blogbackend.model.Category;
+import MyBlog.blogbackend.model.Comment;
+import MyBlog.blogbackend.model.User;
+import MyBlog.blogbackend.model.Tag;
 
 public class PostDTO {
 
@@ -73,4 +73,5 @@ public class PostDTO {
     public Set<Tag> getTags() { return tags; }
 
     public void setTags(Set<Tag> tags) { this.tags = tags; }
+
 }

@@ -1,10 +1,10 @@
 package MyBlog.blogbackend.DTO;
 
-import MyBlog.blogbackend.model.Comment;
-import MyBlog.blogbackend.model.Post;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import MyBlog.blogbackend.model.Comment;
+import MyBlog.blogbackend.model.Post;
 
 public class UserDTO {
 
@@ -71,4 +71,5 @@ public class UserDTO {
     public Set<Post> getPosts() { return posts; }
 
     public void setPosts(Set<Post> posts) { this.posts = posts; }
+
 }

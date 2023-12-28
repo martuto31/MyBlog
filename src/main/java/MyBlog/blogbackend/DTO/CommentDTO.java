@@ -1,10 +1,10 @@
 package MyBlog.blogbackend.DTO;
 
-import MyBlog.blogbackend.model.Post;
-import MyBlog.blogbackend.model.User;
-
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import MyBlog.blogbackend.model.Post;
+import MyBlog.blogbackend.model.User;
 
 public class CommentDTO {
 
