@@ -33,7 +33,7 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public UserDTO registerUser(UserDTO userDTO) throws Exception {
+    public UserDTO register(UserDTO userDTO) throws Exception {
         // Check if email is already taken
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new Exception("Email is already taken");
@@ -47,7 +47,7 @@ public class UserService {
         return userMapper.convertToDto(savedUser, UserDTO.class);
     }
 
-    public Optional<UserDTO> loginUser(String email, String password) {
+    public Optional<UserDTO> logn(String email, String password) {
         User user = userRepository.findByEmail(email);
 
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
@@ -67,6 +67,26 @@ public class UserService {
         List<User> users = userRepository.findAll();
 
         return users.stream().map(user -> userMapper.convertToDto(user, UserDTO.class)).collect(Collectors.toList());
+    }
+
+    public void updateUser(Long userId, UserDTO updatedUserDTO) throws Exception {
+        Optional<User> existingUser = userRepository.findById(userId);
+
+        if (existingUser.isEmpty()) {
+            throw new Exception("User not found.");
+        }
+
+        User user = existingUser.get();
+
+        user.setFirstName(updatedUserDTO.getFirstName());
+        user.setLastName(updatedUserDTO.getLastName());
+
+        // If the password is provided, update it after encoding
+        if (updatedUserDTO.getPassword() != null && !updatedUserDTO.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(updatedUserDTO.getPassword()));
+        }
+
+        userRepository.save(user);
     }
 
 }

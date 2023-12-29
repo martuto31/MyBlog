@@ -19,10 +19,10 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String firstname;
+    private String firstName;
 
     @Column(nullable = false)
-    private String lastname;
+    private String lastName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -45,15 +45,15 @@ public class User {
 
     public User(
             String email,
-            String firstname,
-            String lastname,
+            String firstName,
+            String lastName,
             String password,
             Set<Comment> comments,
             Set<Post> posts) {
 
         this.email = email;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.salt = UUID.randomUUID().toString();
         this.password = new BCryptPasswordEncoder().encode(password + this.salt);
         this.comments = comments;
@@ -78,12 +78,12 @@ public class User {
         this.email = email;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public Long getId() {
@@ -94,12 +94,12 @@ public class User {
         this.id = id;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @JsonIgnore
