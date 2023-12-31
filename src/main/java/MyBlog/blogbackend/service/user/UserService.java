@@ -47,7 +47,7 @@ public class UserService {
         return userMapper.convertToDto(savedUser, UserDTO.class);
     }
 
-    public Optional<UserDTO> logn(String email, String password) {
+    public Optional<UserDTO> login(String email, String password) {
         User user = userRepository.findByEmail(email);
 
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
@@ -63,13 +63,19 @@ public class UserService {
         return optionalUser.map(user -> userMapper.convertToDto(user, UserDTO.class));
     }
 
-    public List<UserDTO> getAllUsers() {
+    public List<UserDTO> getAllUsers() throws Exception {
         List<User> users = userRepository.findAll();
 
-        return users.stream().map(user -> userMapper.convertToDto(user, UserDTO.class)).collect(Collectors.toList());
+        if (users.isEmpty()) {
+            throw new Exception("No users found in database");
+        }
+
+        return users.stream()
+                .map(user -> userMapper.convertToDto(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public void updateUser(Long userId, UserDTO updatedUserDTO) throws Exception {
+    public User updateUser(Long userId, UserDTO updatedUserDTO) throws Exception {
         Optional<User> existingUser = userRepository.findById(userId);
 
         if (existingUser.isEmpty()) {
@@ -86,7 +92,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(updatedUserDTO.getPassword()));
         }
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
 }
