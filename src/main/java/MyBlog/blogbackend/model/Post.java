@@ -95,6 +95,6 @@ public class Post {
 
     public Set<Tag> getTags() { return tags; }
 
-    public void setTags() { this.tags = tags; }
+    public void setTags(Set<Tag> tags) { this.tags = tags; }
 
 }
