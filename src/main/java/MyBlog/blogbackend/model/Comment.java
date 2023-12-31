@@ -56,7 +56,7 @@ public class Comment {
 
     public String getContent() { return content; }
 
-    public void setString(String content) { this.content = content; }
+    public void setContent(String content) { this.content = content; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 
