@@ -67,8 +67,8 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public List<CommentDTO> getAllComments() throws Exception {
-        List<Comment> comments = commentRepository.findAll();
+    public List<CommentDTO> getAllComments(Long postId) throws Exception {
+        List<Comment> comments = commentRepository.findAllByPostId(postId);
 
         if (comments.isEmpty()) {
             throw new Exception("No comments found.");
