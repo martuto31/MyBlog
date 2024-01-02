@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 import java.util.Optional;
 import java.util.List;
 
+import MyBlog.blogbackend.DTO.UpdateUserDTO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,7 +77,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public User updateUser(Long userId, UserDTO updatedUserDTO) throws Exception {
+    public User updateUser(Long userId, UpdateUserDTO updateUserDTO) throws Exception {
         Optional<User> existingUser = userRepository.findById(userId);
 
         if (existingUser.isEmpty()) {
@@ -85,12 +86,12 @@ public class UserService {
 
         User user = existingUser.get();
 
-        user.setFirstName(updatedUserDTO.getFirstName());
-        user.setLastName(updatedUserDTO.getLastName());
+        user.setFirstName(updateUserDTO.getFirstName());
+        user.setLastName(updateUserDTO.getLastName());
 
         // If the password is provided, update it after encoding
-        if (updatedUserDTO.getPassword() != null && !updatedUserDTO.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(updatedUserDTO.getPassword()));
+        if (updateUserDTO.getPassword() != null && !updateUserDTO.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(updateUserDTO.getPassword()));
         }
 
         return userRepository.save(user);

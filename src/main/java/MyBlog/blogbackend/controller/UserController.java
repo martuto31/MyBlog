@@ -3,6 +3,7 @@ package MyBlog.blogbackend.controller;
 import java.util.List;
 import java.util.Optional;
 
+import MyBlog.blogbackend.DTO.UpdateUserDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,9 +68,9 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UserDTO updatedUserDTO) {
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UpdateUserDTO updateUserDTO) {
         try {
-            User updatedUser = userService.updateUser(userId, updatedUserDTO);
+            User updatedUser = userService.updateUser(userId, updateUserDTO);
 
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (Exception e) {
