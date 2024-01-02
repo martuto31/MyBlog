@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import MyBlog.blogbackend.DTO.UpdatePostDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,18 +33,16 @@ public class PostService {
         this.postMapper = postMapper;
     }
 
-    public Post createPost(PostDTO postDTO) {
+    public PostDTO createPost(PostDTO postDTO) {
         Post post = postMapper.convertToEntity(postDTO, Post.class);
+        Post savedPost = postRepository.save(post);
 
-        return postRepository.save(post);
+        return postMapper.convertToDto(savedPost, PostDTO.class);
     }
 
-    public Post editPost(
+    public PostDTO editPost(
             Long postId,
-            String content,
-            String title,
-            Set<Category> categories,
-            Set<Tag> tags) throws Exception {
+            UpdatePostDTO updatePostDTO) throws Exception {
 
         Optional<Post> postOptional = postRepository.findById(postId);
 
@@ -53,16 +52,22 @@ public class PostService {
 
         Post post = postOptional.get();
 
-        if (content.isEmpty() || title.isEmpty() || categories.isEmpty() || tags.isEmpty()) {
+        if (updatePostDTO.getContent().isEmpty()
+                || updatePostDTO.getTitle().isEmpty()
+                || updatePostDTO.getCategories().isEmpty()
+                || updatePostDTO.getTags().isEmpty()) {
+
             throw new Exception("Content || title || categories || tags is missing.");
         }
 
-        post.setContent(content);
-        post.setTitle(title);
-        post.setTags(tags);
-        post.setCategories(categories);
+        post.setContent(updatePostDTO.getContent());
+        post.setTitle(updatePostDTO.getTitle());
+        post.setTags(updatePostDTO.getTags());
+        post.setCategories(updatePostDTO.getCategories());
 
-        return postRepository.save(post);
+        Post updatedPost = postRepository.save(post);
+
+        return postMapper.convertToDto(updatedPost, PostDTO.class);
     }
 
     public void deletePost(Long postId) throws Exception {
