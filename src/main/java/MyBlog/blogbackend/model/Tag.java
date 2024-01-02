@@ -3,8 +3,7 @@ package MyBlog.blogbackend.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 @Entity
 public class Tag {
 

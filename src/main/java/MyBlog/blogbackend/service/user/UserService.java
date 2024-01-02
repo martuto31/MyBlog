@@ -4,7 +4,6 @@ import java.util.stream.Collectors;
 import java.util.Optional;
 import java.util.List;
 
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,9 @@ import MyBlog.blogbackend.mapper.EntityMapper;
 import MyBlog.blogbackend.repository.user.UserRepository;
 
 import MyBlog.blogbackend.model.User;
+
 import MyBlog.blogbackend.DTO.UserDTO;
+import MyBlog.blogbackend.DTO.LoginDTO;
 
 @Service
 public class UserService {
@@ -47,10 +48,10 @@ public class UserService {
         return userMapper.convertToDto(savedUser, UserDTO.class);
     }
 
-    public Optional<UserDTO> login(String email, String password) {
-        User user = userRepository.findByEmail(email);
+    public Optional<UserDTO> login(LoginDTO loginDTO) {
+        User user = userRepository.findByEmailOrUsername(loginDTO.getEmail(), loginDTO.getUsername());
 
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+        if (user != null && passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             return Optional.of(userMapper.convertToDto(user, UserDTO.class));
         }
 

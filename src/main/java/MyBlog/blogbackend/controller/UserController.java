@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import MyBlog.blogbackend.service.user.UserService;
 
 import MyBlog.blogbackend.DTO.UserDTO;
+import MyBlog.blogbackend.DTO.LoginDTO;
 
 import MyBlog.blogbackend.model.User;
 
@@ -37,8 +38,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> loginUser(@RequestParam String email, @RequestParam String password) {
-        Optional<UserDTO> userDTO = userService.login(email, password);
+    public ResponseEntity<UserDTO> loginUser(@RequestBody LoginDTO loginDTO) {
+        // TODO: Handle empty loginDTO exception
+
+        Optional<UserDTO> userDTO = userService.login(loginDTO);
 
         return userDTO.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
@@ -52,7 +55,7 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
+    @GetMapping("getAll")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         try {
             List<UserDTO> users = userService.getAllUsers();
