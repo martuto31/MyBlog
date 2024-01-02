@@ -7,9 +7,9 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.*;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -17,6 +17,9 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column(nullable = false)
     private String firstName;
@@ -45,6 +48,7 @@ public class User {
 
     public User(
             String email,
+            String username,
             String firstName,
             String lastName,
             String password,
@@ -52,6 +56,7 @@ public class User {
             Set<Post> posts) {
 
         this.email = email;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.salt = UUID.randomUUID().toString();
@@ -120,4 +125,7 @@ public class User {
 
     public void setPosts(Set<Post> posts) { this.posts = posts; }
 
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
 }

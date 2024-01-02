@@ -9,11 +9,11 @@ import MyBlog.blogbackend.model.Post;
 public class UserDTO {
 
     private Long id;
+    private String email;
     private String username;
     private String password;
     private String firstName;
     private String lastName;
-    private String email;
     private Set<Comment> comments = new HashSet<>();
     private Set<Post> posts = new HashSet<>();
 
@@ -22,20 +22,20 @@ public class UserDTO {
 
     public UserDTO(
             Long id,
+            String email,
             String username,
             String password,
             String firstName,
             String lastName,
-            String email,
             Set<Comment> comments,
             Set<Post> posts) {
 
         this.id = id;
+        this.email = email;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.comments = comments;
         this.posts = posts;
     }

@@ -1,9 +1,9 @@
 package MyBlog.blogbackend.model;
 
-import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.*;
 
 @Entity
 public class Category {
